@@ -1,12 +1,13 @@
+import { SignInButton, SignOutButton, SignUpButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
 import Link from "next/link";
 
 import { CreatePost } from "~/app/_components/create-post";
-import { getServerAuthSession } from "~/server/auth";
 import { api } from "~/trpc/server";
 
 export default async function Home() {
 	const hello = await api.post.hello({ text: "from tRPC" });
-	const session = await getServerAuthSession();
+	const { userId } = auth();
 
 	return (
 		<main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
@@ -45,14 +46,27 @@ export default async function Home() {
 
 					<div className="flex flex-col items-center justify-center gap-4">
 						<p className="text-center text-2xl text-white">
-							{session && <span>Logged in as {session.user?.name}</span>}
+							{userId && <span>Logged in as {userId}</span>}
 						</p>
-						<Link
-							href={session ? "/api/auth/signout" : "/api/auth/signin"}
-							className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20"
-						>
-							{session ? "Sign out" : "Sign in"}
-						</Link>
+						<SignedOut>
+							<SignInButton>
+								<button className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20">
+									Sign In
+								</button>
+							</SignInButton>
+							<SignUpButton>
+								<button className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20">
+									Sign Up
+								</button>
+							</SignUpButton>
+						</SignedOut>
+						<SignedIn>
+							<SignOutButton>
+								<button className="rounded-full bg-white/10 px-10 py-3 font-semibold no-underline transition hover:bg-white/20">
+									Sign Out
+								</button>
+							</SignOutButton>
+						</SignedIn>
 					</div>
 				</div>
 
@@ -63,8 +77,7 @@ export default async function Home() {
 }
 
 async function CrudShowcase() {
-	const session = await getServerAuthSession();
-	if (!session?.user) return null;
+	return null;
 
 	const latestPost = await api.post.getLatest();
 
