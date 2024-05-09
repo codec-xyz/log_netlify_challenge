@@ -39,13 +39,14 @@ export function SingleVerticalZigZagTimeline(props: { time: number, nowTime: num
 		if (!elementRef.current) return;
 		const resizeObserver = new ResizeObserver(() => {
 			const element = elementRef.current as HTMLDivElement;
+			//Warning: careful not to cause a loop
 			setZigZagCount(Math.max(1, Math.floor(element.offsetWidth / props.segmentWidth)));
 		});
 		resizeObserver.observe(elementRef.current);
 		return () => resizeObserver.disconnect();
-	  }, []);
+	  }, []);//grid-flow-col auto-cols-fr
 
-	return <div className="grid grid-flow-col auto-cols-fr my-2 gap-2 overflow-hidden mx-2" ref={elementRef}>
+	return <div className="grid grid-rows-[1fr_0] my-2 gap-x-2 mx-2 overflow-hidden" ref={elementRef} style={{ gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${props.segmentWidth}px), 1fr))` }}>
 		{segments.map((ss, ii) => <div className="flex flex-col items-start" key={ss.key}>
 			{ii == 0 && skipSegment && <div className="w-full border-t-[4px] border-x-[4px] border-slate-200" style={{ height: (firstSegment.percent * 100) + "%", background: "repeating-linear-gradient(45deg, transparent, transparent 5.6568px, rgb(226 232 240) 5.6568px, rgb(226 232 240) 11.3137px)" }}></div>}
 			<div className="w-full flex flex-col items-start bg-slate-200" style={{ height: (ii == 0 && skipSegment) ? (100 - firstSegment.percent * 100) + "%" : "100%" }}>

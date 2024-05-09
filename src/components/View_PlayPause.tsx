@@ -62,6 +62,6 @@ export function View_PlayPause_Render(props: { view: View_PlayPause }) {
 			{hasFuture && <div className="text-xs col-span-2 text-slate-500 ">(Has Future Events)</div>}
 		</div>
 		{props.view.type == View_PlayPause_Type.Horizontal && <SingleHorizontalTimeline time={time.getTime()} length={24 * 60 * 60 * 1000} logGroup={logGroup} timePropName={timePropName} boolPropName={boolPropName} isOnNow={isOnNow} /> }
-		{props.view.type == View_PlayPause_Type.VerticalZigZag && <SingleVerticalZigZagTimeline time={nextMidnight.getTime()} nowTime={time.getTime()} timeLength={24 * 60 * 60 * 1000} segmentWidth={75} fallbackSegmentCount={10} logGroup={logGroup} timePropName={timePropName} boolPropName={boolPropName} isOnNow={isOnNow} hasFuture={hasFuture} suppressHydrationWarning />}
+		{props.view.type == View_PlayPause_Type.VerticalZigZag && <SingleVerticalZigZagTimeline time={nextMidnight.getTime()} nowTime={time.getTime()} timeLength={24 * 60 * 60 * 1000} segmentWidth={75} fallbackSegmentCount={20} logGroup={logGroup} timePropName={timePropName} boolPropName={boolPropName} isOnNow={isOnNow} hasFuture={hasFuture} suppressHydrationWarning />}
 	</div>;
 }
