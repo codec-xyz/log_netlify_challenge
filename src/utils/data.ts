@@ -1,16 +1,16 @@
 import { useCallback, useSyncExternalStore } from "react";
-import { TagId, LogGroup, LogEntry } from "./dataSchema";
+import { TagId, Log, LogEntry } from "./dataSchema";
 import { SampleLogGroups001_Queryable, SampleWorkspace001 } from "./sampleData";
 
 let logGroups = SampleLogGroups001_Queryable;
 
-export function getLogGroup(tags: TagId[]): LogGroup | undefined {
-	return logGroups[tags.sort().join()];
+export function getLogGroup(tag: TagId): Log | undefined {
+	return logGroups[tag];
 }
 
 let logGroupSubs: Set<() => void> = new Set();
 
-function logGroupSubscribe(tags: TagId[]) {
+function logGroupSubscribe(tag: TagId) {
 	return (callback: () => void) => {
 		logGroupSubs.add(callback);
 		//console.log('setup group watcher for ' + tags.join());
@@ -22,24 +22,24 @@ function logGroupSubscribe(tags: TagId[]) {
 	}
 }
 
-const defaultLogGroup: LogGroup = { version: 0, id: '', tags: [], entries: [] };
+const defaultLogGroup: Log = { version: 0, id: '', entries: [] };
 
-function logGroupSnapshot(tags: TagId[]) {
-	return () => getLogGroup(tags) ?? defaultLogGroup;
+function logGroupSnapshot(tag: TagId) {
+	return () => getLogGroup(tag) ?? defaultLogGroup;
 }
 
-function logGroupServerSnapshot(tags: TagId[]) {
-	return () => getLogGroup(tags) ?? defaultLogGroup;
+function logGroupServerSnapshot(tag: TagId) {
+	return () => getLogGroup(tag) ?? defaultLogGroup;
 }
 
-export function useDatabaseLogGroup(tags: TagId[]) {
-	const subscribe = useCallback(logGroupSubscribe(tags), [tags]);
-	const snapshot = useCallback(logGroupSnapshot(tags), [tags]);
-	const serverSnapshot = useCallback(logGroupServerSnapshot(tags), [tags]);
+export function useDatabaseLog(tag: TagId) {
+	const subscribe = useCallback(logGroupSubscribe(tag), [tag]);
+	const snapshot = useCallback(logGroupSnapshot(tag), [tag]);
+	const serverSnapshot = useCallback(logGroupServerSnapshot(tag), [tag]);
 	return useSyncExternalStore(subscribe, snapshot, serverSnapshot);
 }
 
-export function useDatabaseLogGroupMany(tags: TagId[][]) {
+export function useDatabaseLogMany(tags: TagId[][]) {
 	throw new Error("Function not implemented.");
 }
 

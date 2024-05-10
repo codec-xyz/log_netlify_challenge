@@ -2,7 +2,7 @@
 
 import { useContext } from "react";
 import { TimedUpdateContext, useFirstRenderFallback } from "~/components/TimedUpdateProvider";
-import { updateLogGroup, useDatabaseLogGroup } from "~/utils/data";
+import { updateLogGroup, useDatabaseLog as useDatabaseLog } from "~/utils/data";
 import { PropertyId, TagId } from "~/utils/dataSchema";
 import PlaySvg from "/public/Icon_Play.svg"
 import PauseSvg from "/public/Icon_Pause.svg"
@@ -16,34 +16,34 @@ export enum View_PlayPause_Type {
 
 export type View_PlayPause = {
 	name: string;
-	tags: TagId[];
+	tag: TagId;
 	type: View_PlayPause_Type,
 }
 
 export function View_PlayPause_Render(props: { view: View_PlayPause }) {
 	const time = useContext(TimedUpdateContext);
-	const logGroup = useDatabaseLogGroup(props.view.tags);
+	const log = useDatabaseLog(props.view.tag);
 
 	const timePropName: PropertyId = 'id_of_SysTimeProp';
 	const boolPropName: PropertyId = 'id_of_SysOnOffBoolProp';
 
 	const actualNow = useFirstRenderFallback(() => new Date(), () => time).getTime();
 
-	const latestEvent = logGroup.entries[0];
+	const latestEvent = log.entries[0];
 	const hasFuture = latestEvent ? latestEvent[timePropName] > actualNow : false;
 
-	const closestEventToNow = logGroup.entries.find(e => e[timePropName] <= actualNow);
+	const closestEventToNow = log.entries.find(e => e[timePropName] <= actualNow);
 	const isOnNow = closestEventToNow?.[boolPropName] ?? false;
 
 	function addEvent() {
-		let newEvents = logGroup.entries.slice();
+		let newEvents = log.entries.slice();
 		newEvents.unshift({
 			version: 0,
 			id: (Math.random() + 1).toString(36).substring(2),
 			[timePropName]: new Date().getTime(),
 			[boolPropName]: !isOnNow,
 		});
-		updateLogGroup(logGroup.id, newEvents);
+		updateLogGroup(log.id, newEvents);
 	}
 
 	const nextMidnight = new Date(time);
@@ -64,7 +64,7 @@ export function View_PlayPause_Render(props: { view: View_PlayPause }) {
 			</button>}
 			{hasFuture && <div className="text-xs col-span-2 text-slate-500">(Has Future Events)</div>}
 		</div>
-		{props.view.type == View_PlayPause_Type.Horizontal && <HorizontalTimeline time={time.getTime()} length={24 * 60 * 60 * 1000} logGroup={logGroup} timePropName={timePropName} boolPropName={boolPropName} isOnNow={isOnNow} /> }
-		{props.view.type == View_PlayPause_Type.VerticalZigZag && <VerticalZigZagTimeline time={nextMidnight.getTime()} nowTime={time.getTime()} timeLength={24 * 60 * 60 * 1000} segmentWidth={75} fallbackSegmentCount={20} logGroup={logGroup} timePropName={timePropName} boolPropName={boolPropName} isOnNow={isOnNow} hasFuture={hasFuture} suppressHydrationWarning />}
+		{props.view.type == View_PlayPause_Type.Horizontal && <HorizontalTimeline time={time.getTime()} length={24 * 60 * 60 * 1000} log={log} timePropName={timePropName} boolPropName={boolPropName} isOnNow={isOnNow} /> }
+		{props.view.type == View_PlayPause_Type.VerticalZigZag && <VerticalZigZagTimeline time={nextMidnight.getTime()} nowTime={time.getTime()} timeLength={24 * 60 * 60 * 1000} segmentWidth={75} fallbackSegmentCount={20} log={log} timePropName={timePropName} boolPropName={boolPropName} isOnNow={isOnNow} hasFuture={hasFuture} suppressHydrationWarning />}
 	</div>;
 }

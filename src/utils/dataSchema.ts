@@ -22,8 +22,20 @@ export type ViewPageId = string;
 export type ViewId = string;
 export type PropertyId = string;
 export type TagId = string;
-export type LogGroupId = string;
 export type LogEntryId = string;
+export type UserId = string;
+
+export type UserData = {
+	version: number;
+	workspace: Workspace;
+	tags: Tag[];
+	properties: PropertyInfo[];
+
+	sharedTags: {
+		user: UserId,
+		tags: TagId[],
+	}[];
+}
 
 export type Workspace = {
 	version: number;
@@ -60,16 +72,19 @@ export type Tag = {
 	id: TagId;
 	name: string;
 	tags: TagId[];
-	c_subTags: TagId[];
-	c_logGroups: LogGroupId[];
 
 	properties: PropertyId[];
+	c_allProperties: PropertyId[];
+
+	c_logNonEmpty: boolean;
+
+	viewers: UserId[];
+	logEditors: UserId[];
 }
 
-export type LogGroup = {
+export type Log = {
 	version: number;
-	id: LogGroupId;
-	tags: TagId[];
+	id: TagId;
 	entries: LogEntry[];
 }
 

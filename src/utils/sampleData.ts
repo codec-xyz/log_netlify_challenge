@@ -1,4 +1,4 @@
-import { Workspace, ViewTypes, TagId, Tag, PropertyId, PropertyInfo, PropertyTypes, LogGroup } from "./dataSchema";
+import { Workspace, ViewTypes, TagId, Tag, PropertyId, PropertyInfo, PropertyTypes, Log } from "./dataSchema";
 
 export const SampleWorkspace001: Workspace = {
 	version: 0,
@@ -14,7 +14,7 @@ export const SampleWorkspace001: Workspace = {
 				type: ViewTypes.PlayPause,
 				info: {
 					name: 'Sleep',
-					tags: ['id_of_tag_sleeping'],
+					tag: 'id_of_tag_sleeping',
 					type: 1
 				},
 			},
@@ -24,7 +24,7 @@ export const SampleWorkspace001: Workspace = {
 				type: ViewTypes.PlayPause,
 				info: {
 					name: 'Watching Youtube/Movies/Shows',
-					tags: ['id_of_tag_watch'],
+					tag: 'id_of_tag_watch',
 					type: 0
 				},
 			},
@@ -34,7 +34,7 @@ export const SampleWorkspace001: Workspace = {
 				type: ViewTypes.PlayPause,
 				info: {
 					name: 'Programming',
-					tags: ['id_of_tag_programming'],
+					tag: 'id_of_tag_programming',
 					type: 0
 				},
 			},
@@ -44,7 +44,7 @@ export const SampleWorkspace001: Workspace = {
 				type: ViewTypes.PlayPause,
 				info: {
 					name: 'College Work',
-					tags: ['id_of_tag_college'],
+					tag: 'id_of_tag_college',
 					type: 0
 				},
 			},
@@ -54,7 +54,7 @@ export const SampleWorkspace001: Workspace = {
 				type: ViewTypes.Checkmark,
 				info: {
 					name: 'Running',
-					tags: ['id_of_tag_running'],
+					tag: 'id_of_tag_running',
 					type: 1,
 				},
 			},
@@ -64,7 +64,7 @@ export const SampleWorkspace001: Workspace = {
 				type: ViewTypes.Checkmark,
 				info: {
 					name: 'Exercising',
-					tags: ['id_of_tag_exercising'],
+					tag: 'id_of_tag_exercising',
 					type: 1,
 				},
 			},
@@ -74,7 +74,7 @@ export const SampleWorkspace001: Workspace = {
 				type: ViewTypes.Checkmark,
 				info: {
 					name: 'Walk The Dog',
-					tags: ['id_of_tag_walkTheDog'],
+					tag: 'id_of_tag_walkTheDog',
 					type: 0,
 				},
 			},
@@ -84,7 +84,7 @@ export const SampleWorkspace001: Workspace = {
 			// 	type: ViewTypes.Enum,
 			// 	info: {
 			// 		name: 'Mood',
-			// 		tags: ['id_of_tag_mood'],
+			// 		tag: 'id_of_tag_mood',
 			// 	},
 			// },
 		],
@@ -99,9 +99,11 @@ export const SampleTags001_Queryable: {
 		id: 'id_of_tag_sleeping',
 		name: 'Sleeping (Tag)',
 		tags: [],
-		c_subTags: [],
-		c_logGroups: ['id_of_logGroup_001(sleeping)'],
-		properties: ['id_of_SysTimeProp', 'id_of_SysOnOffBoolProp']
+		properties: ['id_of_SysTimeProp', 'id_of_SysOnOffBoolProp'],
+		c_allProperties: ['id_of_SysTimeProp', 'id_of_SysOnOffBoolProp'],
+		c_logNonEmpty: true,
+		viewers: [],
+		logEditors: [],
 	},
 };
 
@@ -123,12 +125,11 @@ export const SampleProperties001: {
 };
 
 export const SampleLogGroups001_Queryable: {
-	[key: string]: LogGroup; //key concat of all tag ids sorted
+	[key: TagId]: Log;
 } = {
 	'id_of_tag_sleeping': {
 		version: 0,
-		id: 'id_of_logGroup(id_of_tag_sleeping)',
-		tags: ['id_of_tag_sleeping'],
+		id: 'id_of_tag_sleeping',
 		entries: [
 			// {
 			// 	version: 0,
@@ -162,7 +163,7 @@ export const SampleLogGroups001_Queryable: {
 			},
 			{
 				version: 0,
-				id: 'id_of_tag_sleeping_4',
+				id: 'id_of_tag_sleeping_5',
 				'id_of_SysTimeProp': 1715207627551 - 41150 * 1000,
 				'id_of_SysOnOffBoolProp': true,
 			},
@@ -170,8 +171,7 @@ export const SampleLogGroups001_Queryable: {
 	},
 	'id_of_tag_walkTheDog': {
 		version: 0,
-		id: 'id_of_logGroup(id_of_tag_walkTheDog)',
-		tags: ['id_of_tag_walkTheDog'],
+		id: 'id_of_tag_walkTheDog',
 		entries: [
 			{
 				version: 0,
@@ -217,8 +217,7 @@ export const SampleLogGroups001_Queryable: {
 	},
 	'id_of_tag_running': {
 		version: 0,
-		id: 'id_of_logGroup(running)',
-		tags: ['id_of_tag_running'],
+		id: 'id_of_tag_running',
 		entries: [
 			{
 				version: 0,
@@ -264,26 +263,22 @@ export const SampleLogGroups001_Queryable: {
 	},
 	'id_of_tag_watch': {
 		version: 0,
-		id: 'id_of_logGroup(id_of_tag_watch)',
-		tags: ['id_of_tag_watch'],
+		id: 'id_of_tag_watch',
 		entries: []
 	},
 	'id_of_tag_programming': {
 		version: 0,
-		id: 'id_of_logGroup(id_of_tag_programming)',
-		tags: ['id_of_tag_programming'],
+		id: 'id_of_tag_programming',
 		entries: []
 	},
 	'id_of_tag_college': {
 		version: 0,
-		id: 'id_of_logGroup(id_of_tag_college)',
-		tags: ['id_of_tag_college'],
+		id: 'id_of_tag_college',
 		entries: []
 	},
 	'id_of_tag_exercising': {
 		version: 0,
-		id: 'id_of_logGroup(id_of_tag_exercising)',
-		tags: ['id_of_tag_exercising'],
+		id: 'id_of_tag_exercising',
 		entries: []
 	},
 };

@@ -1,11 +1,11 @@
-import { LogGroup, PropertyId } from "~/utils/dataSchema";
+import { Log, PropertyId } from "~/utils/dataSchema";
 import CheckmarkSvg from "/public/Icon_Checkmark.svg"
 
-export function DotsTimeline(props: { time: number, length: number, logGroup: LogGroup, timePropName: PropertyId }) {
+export function DotsTimeline(props: { time: number, length: number, log: Log, timePropName: PropertyId }) {
 	const startTime = props.time - props.length;
 	const endTime = props.time;
 
-	const dots = props.logGroup.entries.filter(e => startTime <= e[props.timePropName] && e[props.timePropName] <= endTime)
+	const dots = props.log.entries.filter(e => startTime <= e[props.timePropName] && e[props.timePropName] <= endTime)
 	.map(e => ({
 		key: e.id,
 		time: (e[props.timePropName] - startTime) / props.length,

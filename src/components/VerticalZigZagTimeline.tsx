@@ -1,11 +1,11 @@
 import { useRef, useEffect, useState, createElement } from "react";
 import { Segment, calcRenderSegments } from "~/utils/timeline";
-import { LogGroup, PropertyId } from "~/utils/dataSchema";
+import { Log, PropertyId } from "~/utils/dataSchema";
 
-export function VerticalZigZagTimeline(props: { time: number, nowTime: number, timeLength: number, segmentWidth: number, fallbackSegmentCount: number, logGroup: LogGroup, timePropName: PropertyId, boolPropName: PropertyId, isOnNow: boolean, hasFuture: boolean, suppressHydrationWarning: true }) {
+export function VerticalZigZagTimeline(props: { time: number, nowTime: number, timeLength: number, segmentWidth: number, fallbackSegmentCount: number, log: Log, timePropName: PropertyId, boolPropName: PropertyId, isOnNow: boolean, hasFuture: boolean, suppressHydrationWarning: true }) {
 	const [zigZagCount, setZigZagCount] = useState(props.fallbackSegmentCount);
 
-	let events = props.logGroup.entries;
+	let events = props.log.entries;
 	const behindNow = props.time != props.nowTime;
 	if(!props.hasFuture && behindNow) {
 		events = events.slice();
