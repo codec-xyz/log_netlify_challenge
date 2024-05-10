@@ -4,10 +4,10 @@ import { useContext } from "react";
 import { TimedUpdateContext, useFirstRenderFallback } from "~/components/TimedUpdateProvider";
 import { updateLogGroup, useDatabaseLogGroup } from "~/utils/data";
 import { PropertyId, TagId } from "~/utils/viewData";
-import PlaySvg from "/public/play_black_24dp.svg"
-import PauseSvg from "/public/pause_black_24dp.svg"
-import { SingleHorizontalTimeline } from "./SingleHorizontalTimeline";
-import { SingleVerticalZigZagTimeline } from "./SingleVerticalZigZagTimeline";
+import PlaySvg from "/public/Icon_Play.svg"
+import PauseSvg from "/public/Icon_Pause.svg"
+import { HorizontalTimeline } from "./HorizontalTimeline";
+import { VerticalZigZagTimeline } from "./VerticalZigZagTimeline";
 
 export enum View_PlayPause_Type {
 	Horizontal,
@@ -49,19 +49,20 @@ export function View_PlayPause_Render(props: { view: View_PlayPause }) {
 	nextMidnight.setSeconds(0);
 	nextMidnight.setMinutes(0);
 	nextMidnight.setHours(24);
+	//className="my-1 justify-self-center md:justify-self-end self-center grid grid-cols-[1fr_auto] items-center gap-x-2 text-right max-w-full"
 
-	return <div className={"grid grid-cols-[min(15%,_200px)_1fr] gap-2 pl-4 " + (props.view.type == View_PlayPause_Type.VerticalZigZag ? "h-32" : "h-16")}>
-		<div className="my-1 justify-self-end self-center grid grid-cols-[1fr_auto] items-center gap-x-2 text-right">
-			<div className="font-bold">{props.view.name}</div>
-			{!isOnNow && <button className="m-auto block rounded-full border border-slate-950 enabled:hover:bg-slate-200 p-1 fill-slate-950 disabled:fill-slate-500 disabled:border-slate-500 disabled:border-dashed" onClick={addEvent} disabled={hasFuture}>
-				<PlaySvg className="box-content" width="16" height="16" viewBox="0 0 24 24" />
+	return <div className={"grid md:grid-cols-[min(15%,_200px)_1fr] gap-x-2 md:pl-2"}>
+		<div className="my-1 justify-self-center md:justify-self-end self-center grid grid-cols-[1fr_auto] items-center gap-x-2 text-right">
+			<div className="font-bold overflow-hidden text-ellipsis">{props.view.name}</div>
+			{!isOnNow && <button className="m-auto block rounded-full border-2 border-slate-950 enabled:hover:bg-slate-200 p-2 fill-slate-950 disabled:fill-slate-500 disabled:border-slate-500 disabled:border-dashed" onClick={addEvent} disabled={hasFuture}>
+				<PlaySvg className="box-content" width="10" height="10" viewBox="0 0 16 16"/>
 			</button>}
-			{isOnNow && <button className="m-auto block rounded-full border border-slate-950 enabled:hover:bg-slate-200 p-1 fill-slate-950 disabled:fill-slate-500 disabled:border-slate-500 disabled:border-dashed" onClick={addEvent} disabled={hasFuture}>
-				<PauseSvg className="box-content" width="16" height="16" viewBox="0 0 24 24" />
+			{isOnNow && <button className="m-auto block rounded-full border-2 border-slate-950 enabled:hover:bg-slate-200 p-2 fill-slate-950 disabled:fill-slate-500 disabled:border-slate-500 disabled:border-dashed" onClick={addEvent} disabled={hasFuture}>
+				<PauseSvg className="box-content" width="10" height="10" viewBox="0 0 16 16"/>
 			</button>}
-			{hasFuture && <div className="text-xs col-span-2 text-slate-500 ">(Has Future Events)</div>}
+			{hasFuture && <div className="text-xs col-span-2 text-slate-500">(Has Future Events)</div>}
 		</div>
-		{props.view.type == View_PlayPause_Type.Horizontal && <SingleHorizontalTimeline time={time.getTime()} length={24 * 60 * 60 * 1000} logGroup={logGroup} timePropName={timePropName} boolPropName={boolPropName} isOnNow={isOnNow} /> }
-		{props.view.type == View_PlayPause_Type.VerticalZigZag && <SingleVerticalZigZagTimeline time={nextMidnight.getTime()} nowTime={time.getTime()} timeLength={24 * 60 * 60 * 1000} segmentWidth={75} fallbackSegmentCount={20} logGroup={logGroup} timePropName={timePropName} boolPropName={boolPropName} isOnNow={isOnNow} hasFuture={hasFuture} suppressHydrationWarning />}
+		{props.view.type == View_PlayPause_Type.Horizontal && <HorizontalTimeline time={time.getTime()} length={24 * 60 * 60 * 1000} logGroup={logGroup} timePropName={timePropName} boolPropName={boolPropName} isOnNow={isOnNow} /> }
+		{props.view.type == View_PlayPause_Type.VerticalZigZag && <VerticalZigZagTimeline time={nextMidnight.getTime()} nowTime={time.getTime()} timeLength={24 * 60 * 60 * 1000} segmentWidth={75} fallbackSegmentCount={20} logGroup={logGroup} timePropName={timePropName} boolPropName={boolPropName} isOnNow={isOnNow} hasFuture={hasFuture} suppressHydrationWarning />}
 	</div>;
 }

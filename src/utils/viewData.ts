@@ -1,11 +1,9 @@
-import { Timepoint } from "./timepoint";
-
 //v_ data generted for viewer. not sorted outside view
 //c_ computed data. can be deleted
 
 export enum ViewTypes {
-	Single_PlayPause,
-	Multi_PlayPause,
+	PlayPause,
+	MultiPlayPause,
 	Enum,
 	Checkmark,
 	Number,

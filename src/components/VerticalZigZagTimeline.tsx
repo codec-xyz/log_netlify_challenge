@@ -2,7 +2,7 @@ import { useRef, useEffect, useState, createElement } from "react";
 import { Segment, calcRenderSegments } from "~/utils/timeline";
 import { LogGroup, PropertyId } from "~/utils/viewData";
 
-export function SingleVerticalZigZagTimeline(props: { time: number, nowTime: number, timeLength: number, segmentWidth: number, fallbackSegmentCount: number, logGroup: LogGroup, timePropName: PropertyId, boolPropName: PropertyId, isOnNow: boolean, hasFuture: boolean, suppressHydrationWarning: true }) {
+export function VerticalZigZagTimeline(props: { time: number, nowTime: number, timeLength: number, segmentWidth: number, fallbackSegmentCount: number, logGroup: LogGroup, timePropName: PropertyId, boolPropName: PropertyId, isOnNow: boolean, hasFuture: boolean, suppressHydrationWarning: true }) {
 	const [zigZagCount, setZigZagCount] = useState(props.fallbackSegmentCount);
 
 	let events = props.logGroup.events;
@@ -44,9 +44,9 @@ export function SingleVerticalZigZagTimeline(props: { time: number, nowTime: num
 		});
 		resizeObserver.observe(elementRef.current);
 		return () => resizeObserver.disconnect();
-	  }, []);//grid-flow-col auto-cols-fr
+	  }, []);
 
-	return <div className="grid grid-rows-[1fr_0] my-2 gap-x-2 mx-2 overflow-hidden" ref={elementRef} style={{ gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${props.segmentWidth}px), 1fr))` }}>
+	return <div className="h-32 grid grid-rows-[1fr_repeat(32,0)] gap-x-2 mx-2 md:ml-0 overflow-hidden" ref={elementRef} style={{ gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${props.segmentWidth}px), 1fr))` }}>
 		{segments.map((ss, ii) => <div className="flex flex-col items-start" key={ss.key}>
 			{ii == 0 && skipSegment && <div className="w-full border-t-[4px] border-x-[4px] border-slate-200" style={{ height: (firstSegment.percent * 100) + "%", background: "repeating-linear-gradient(45deg, transparent, transparent 5.6568px, rgb(226 232 240) 5.6568px, rgb(226 232 240) 11.3137px)" }}></div>}
 			<div className="w-full flex flex-col items-start bg-slate-200" style={{ height: (ii == 0 && skipSegment) ? (100 - firstSegment.percent * 100) + "%" : "100%" }}>
