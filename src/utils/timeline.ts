@@ -1,4 +1,4 @@
-import { LogEntry, PropertyId } from "./viewData";
+import { LogEntry, PropertyId } from "./dataSchema";
 
 export function timeAgoInfo(time: number) {
 	if(time < 0) return '';
@@ -25,7 +25,7 @@ export function timeAgoInfo(time: number) {
 }
 
 export type Segment<T> = {
-	key: number,
+	key: string,
 	percent: number,
 	state: T,
 }
@@ -59,13 +59,13 @@ export function calcRenderSegments<T>(startTime: number, endTime: number, logEnt
 	const lengthTime = endTime - startTime;
 
 	return new ExArr(
-		{ key: 2, time: 1, state: defaultState },
+		{ key: 'EndKey', time: 1, state: defaultState },
 		...logEntries.map(e => ({
-			key: e[timeProp],
+			key: e.id,
 			time: clamp((e[timeProp] - startTime) / lengthTime, 0, 1),
 			state: e[stateProp],
 		})),
-		{ key: 1, time: 0, state: defaultState },
+		{ key: 'StartKey', time: 0, state: defaultState },
 	)
 	.mapInBetween((a, b) => ({
 		key: b.key,

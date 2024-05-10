@@ -3,7 +3,7 @@
 import { useContext } from "react";
 import { TimedUpdateContext, useFirstRenderFallback } from "~/components/TimedUpdateProvider";
 import { updateLogGroup, useDatabaseLogGroup } from "~/utils/data";
-import { PropertyId, TagId } from "~/utils/viewData";
+import { PropertyId, TagId } from "~/utils/dataSchema";
 import PlaySvg from "/public/Icon_Play.svg"
 import PauseSvg from "/public/Icon_Pause.svg"
 import { HorizontalTimeline } from "./HorizontalTimeline";
@@ -29,15 +29,17 @@ export function View_PlayPause_Render(props: { view: View_PlayPause }) {
 
 	const actualNow = useFirstRenderFallback(() => new Date(), () => time).getTime();
 
-	const latestEvent = logGroup.events[0];
+	const latestEvent = logGroup.entries[0];
 	const hasFuture = latestEvent ? latestEvent[timePropName] > actualNow : false;
 
-	const closestEventToNow = logGroup.events.find(e => e[timePropName] <= actualNow);
+	const closestEventToNow = logGroup.entries.find(e => e[timePropName] <= actualNow);
 	const isOnNow = closestEventToNow?.[boolPropName] ?? false;
 
 	function addEvent() {
-		let newEvents = logGroup.events.slice();
+		let newEvents = logGroup.entries.slice();
 		newEvents.unshift({
+			version: 0,
+			id: (Math.random() + 1).toString(36).substring(2),
 			[timePropName]: new Date().getTime(),
 			[boolPropName]: !isOnNow,
 		});

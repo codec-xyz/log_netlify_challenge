@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ExArr, calcRenderSegments } from "~/utils/timeline";
-import { LogEntry, LogGroup, PropertyId } from "~/utils/viewData";
+import { LogEntry, LogGroup, PropertyId } from "~/utils/dataSchema";
 import XSmallSvg from "/public/Icon_XSmall.svg"
 import CheckmarkSvg from "/public/Icon_Checkmark.svg"
 import CheckmarkEmptySvg from "/public/Icon_CheckmarkEmpty.svg"
@@ -10,7 +10,7 @@ export function CheckmarkTimeline(props: { time: number, singleCheckmarkLength: 
 	const startTime = props.time - props.singleCheckmarkLength * checkmarkCount;
 
 
-	const groupedEntriesObj = new ExArr(...props.logGroup.events).group(entry => {
+	const groupedEntriesObj = new ExArr(...props.logGroup.entries).group(entry => {
 		const entryTime = entry[props.timePropName];
 		let checkMarkIndex = (entryTime - startTime) / props.singleCheckmarkLength;
 		if(checkMarkIndex < 0 || checkMarkIndex >= checkmarkCount) return;

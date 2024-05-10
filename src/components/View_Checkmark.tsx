@@ -3,7 +3,7 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { TimedUpdateContext, useFirstRenderFallback } from "~/components/TimedUpdateProvider";
 import { updateLogGroup, useDatabaseLogGroup } from "~/utils/data";
-import { PropertyId, TagId } from "~/utils/viewData";
+import { PropertyId, TagId } from "~/utils/dataSchema";
 import XSmallSvg from "/public/Icon_XSmall.svg"
 import CheckmarkSvg from "/public/Icon_Checkmark.svg"
 import CheckmarkEmptySvg from "/public/Icon_CheckmarkEmpty.svg"
@@ -32,15 +32,17 @@ export function View_Checkmark_Render(props: { view: View_Checkmark }) {
 
 	const actualNow = useFirstRenderFallback(() => new Date(), () => time).getTime();
 
-	const latestEvent = logGroup.events[0];
+	const latestEvent = logGroup.entries[0];
 	const hasFuture = latestEvent ? latestEvent[timePropName] > actualNow : false;
 	
-	const closestEventToNow = logGroup.events.find(e => e[timePropName] <= actualNow);
+	const closestEventToNow = logGroup.entries.find(e => e[timePropName] <= actualNow);
 	const timeAgoLabel = closestEventToNow ? timeAgoInfo(actualNow - closestEventToNow[timePropName]) : '';
 
 	function addEvent() {
-		let newEvents = logGroup.events.slice();
+		let newEvents = logGroup.entries.slice();
 		newEvents.unshift({
+			version: 0,
+			id: (Math.random() + 1).toString(36).substring(2),
 			[timePropName]: new Date().getTime(),
 		});
 		updateLogGroup(logGroup.id, newEvents);

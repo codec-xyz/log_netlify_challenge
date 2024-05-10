@@ -1,5 +1,5 @@
 import { useCallback, useSyncExternalStore } from "react";
-import { TagId, LogGroup, LogEntry } from "./viewData";
+import { TagId, LogGroup, LogEntry } from "./dataSchema";
 import { SampleLogGroups001_Queryable, SampleWorkspace001 } from "./sampleData";
 
 let logGroups = SampleLogGroups001_Queryable;
@@ -22,7 +22,7 @@ function logGroupSubscribe(tags: TagId[]) {
 	}
 }
 
-const defaultLogGroup = { id: '', tags: [], events: [] };
+const defaultLogGroup: LogGroup = { version: 0, id: '', tags: [], entries: [] };
 
 function logGroupSnapshot(tags: TagId[]) {
 	return () => getLogGroup(tags) ?? defaultLogGroup;

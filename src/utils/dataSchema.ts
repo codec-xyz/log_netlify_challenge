@@ -1,6 +1,3 @@
-//v_ data generted for viewer. not sorted outside view
-//c_ computed data. can be deleted
-
 export enum ViewTypes {
 	PlayPause,
 	MultiPlayPause,
@@ -21,27 +18,35 @@ export enum PropertyTypes {
 	Image,
 }
 
+export type ViewPageId = string;
+export type ViewId = string;
 export type PropertyId = string;
 export type TagId = string;
 export type LogGroupId = string;
+export type LogEntryId = string;
 
 export type Workspace = {
+	version: number;
 	theme: string;
 	viewPages: ViewPage[];
 }
 
 export type ViewPage = {
+	version: number;
+	id: ViewPageId;
 	name: string;
 	views: View[];
 }
 
 export type View = {
-	v_id: string;
+	version: number;
+	id: ViewId;
 	type: ViewTypes
 	info: any
 }
 
 export type PropertyInfo = {
+	version: number;
 	id: PropertyId;
 	name: string;
 	type: PropertyTypes;
@@ -51,6 +56,7 @@ export type PropertyInfo = {
 });
 
 export type Tag = {
+	version: number;
 	id: TagId;
 	name: string;
 	tags: TagId[];
@@ -61,11 +67,14 @@ export type Tag = {
 }
 
 export type LogGroup = {
+	version: number;
 	id: LogGroupId;
 	tags: TagId[];
-	events: LogEntry[];
+	entries: LogEntry[];
 }
 
 export type LogEntry = {
+	version: number;
+	id: LogEntryId;
 	[key: PropertyId]: any;
 };
