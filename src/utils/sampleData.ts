@@ -6,25 +6,8 @@ export const SampleWorkspace001: Workspace = {
 		name: 'MyHome',
 		views: [
 			{
-				v_id: 'id0',
-				type: ViewTypes.Checkmark,
-				info: {
-					name: 'Working on this project',
-					tags: ['id_of_tag_workingOnThisProject'],
-				},
-			},
-			{
-				v_id: 'id1',
-				type: ViewTypes.Single_PlayPause,
-				info: {
-					name: 'Sleep',
-					tags: ['id_of_tag_sleeping'],
-					type: 0
-				},
-			},
-			{
 				v_id: 'id11',
-				type: ViewTypes.Single_PlayPause,
+				type: ViewTypes.PlayPause,
 				info: {
 					name: 'Sleep',
 					tags: ['id_of_tag_sleeping'],
@@ -32,11 +15,30 @@ export const SampleWorkspace001: Workspace = {
 				},
 			},
 			{
-				v_id: 'id2',
-				type: ViewTypes.Enum,
+				v_id: 'id1',
+				type: ViewTypes.PlayPause,
 				info: {
-					name: 'Mood',
-					tags: ['id_of_tag_mood'],
+					name: 'Watching Youtube/Movies/Shows',
+					tags: ['id_of_tag_watch'],
+					type: 0
+				},
+			},
+			{
+				v_id: 'id14',
+				type: ViewTypes.PlayPause,
+				info: {
+					name: 'Programming',
+					tags: ['id_of_tag_programming'],
+					type: 0
+				},
+			},
+			{
+				v_id: 'id15',
+				type: ViewTypes.PlayPause,
+				info: {
+					name: 'College Work',
+					tags: ['id_of_tag_college'],
+					type: 0
 				},
 			},
 			{
@@ -45,16 +47,35 @@ export const SampleWorkspace001: Workspace = {
 				info: {
 					name: 'Running',
 					tags: ['id_of_tag_running'],
+					type: 1,
 				},
 			},
 			{
 				v_id: 'id4',
 				type: ViewTypes.Checkmark,
 				info: {
-					name: 'Invincible',
-					tags: ['id_of_tag_Invincible'],
+					name: 'Exercising',
+					tags: ['id_of_tag_exercising'],
+					type: 1,
 				},
 			},
+			{
+				v_id: 'id0',
+				type: ViewTypes.Checkmark,
+				info: {
+					name: 'Walk The Dog',
+					tags: ['id_of_tag_walkTheDog'],
+					type: 0,
+				},
+			},
+			// {
+			// 	v_id: 'id2',
+			// 	type: ViewTypes.Enum,
+			// 	info: {
+			// 		name: 'Mood',
+			// 		tags: ['id_of_tag_mood'],
+			// 	},
+			// },
 		],
 	}],
 };
@@ -91,7 +112,7 @@ export const SampleLogGroups001_Queryable: {
 	[key: string]: LogGroup; //key concat of all tag ids sorted
 } = {
 	'id_of_tag_sleeping': {
-		id: 'id_of_logGroup_001(sleeping)',
+		id: 'id_of_logGroup(id_of_tag_sleeping)',
 		tags: ['id_of_tag_sleeping'],
 		events: [
 			// {
@@ -119,5 +140,85 @@ export const SampleLogGroups001_Queryable: {
 				'id_of_SysOnOffBoolProp': true,
 			},
 		],
+	},
+	'id_of_tag_walkTheDog': {
+		id: 'id_of_logGroup(id_of_tag_walkTheDog)',
+		tags: ['id_of_tag_walkTheDog'],
+		events: [
+			{
+				'id_of_SysTimeProp': 1715212785362 + 120000 * 1000,
+			},
+			{
+				'id_of_SysTimeProp': 1715207627551 - 0,
+			},
+			{
+				'id_of_SysTimeProp': 1715207627551 - 44000 * 1000,
+			},
+			// {
+			// 	'id_of_SysTimeProp': 1715207627551 - 44000 * 1000,
+			// },
+			{
+				'id_of_SysTimeProp': 1715207627551 - 44003 * 1000,
+			},
+			{
+				'id_of_SysTimeProp': 1715207627551 - 154000 * 1000,
+			},
+			{
+				'id_of_SysTimeProp': 1715207627551 - 211500 * 1000,
+			},
+			{
+				'id_of_SysTimeProp': 1715207627551 - 411500 * 1000,
+			},
+		],
+	},
+	'id_of_tag_running': {
+		id: 'id_of_logGroup(running)',
+		tags: ['id_of_tag_running'],
+		events: [
+			{
+				'id_of_SysTimeProp': 1715323140718 + 120000 * 1000,
+			},
+			{
+				'id_of_SysTimeProp': 1715323140718 - 0,
+			},
+			{
+				'id_of_SysTimeProp': 1715323140718 - 44000 * 1000,
+			},
+			// {
+			// 	'id_of_SysTimeProp': 1715207627551 - 44000 * 1000,
+			// },
+			{
+				'id_of_SysTimeProp': 1715323140718 - 44003 * 1000,
+			},
+			{
+				'id_of_SysTimeProp': 1715323140718 - 154000 * 1000,
+			},
+			{
+				'id_of_SysTimeProp': 1715323140718 - 211500 * 1000,
+			},
+			{
+				'id_of_SysTimeProp': 1715323140718 - 411500 * 1000,
+			},
+		],
+	},
+	'id_of_tag_watch': {
+		id: 'id_of_logGroup(id_of_tag_watch)',
+		tags: ['id_of_tag_watch'],
+		events: []
+	},
+	'id_of_tag_programming': {
+		id: 'id_of_logGroup(id_of_tag_programming)',
+		tags: ['id_of_tag_programming'],
+		events: []
+	},
+	'id_of_tag_college': {
+		id: 'id_of_logGroup(id_of_tag_college)',
+		tags: ['id_of_tag_college'],
+		events: []
+	},
+	'id_of_tag_exercising': {
+		id: 'id_of_logGroup(id_of_tag_exercising)',
+		tags: ['id_of_tag_exercising'],
+		events: []
 	},
 };
