@@ -39,7 +39,7 @@ export function CheckmarkTimeline(props: { time: number, singleCheckmarkLength: 
 			<XSmallSvg key={entry.key} className="fill-slate-200 m-auto" width="16" height="16" viewBox="0 0 16 16"/>
 			: <div key={entry.key} className="grid">
 				<CheckmarkSvg className="fill-slate-400 m-auto row-[1] col-[1]" width="20" height="20" viewBox="0 0 16 16"/>
-				{entry.values.length > 1 && <div className="size-fit text-xs col-span-2 text-slate-500 row-[1] col-[1] place-self-end">{entry.values.length}</div>}
+				{entry.values.length > 1 && <div className="size-fit text-xs text-slate-500 row-[1] col-[1] place-self-end">{entry.values.length}</div>}
 			</div>
 		)}
 	</div>;
