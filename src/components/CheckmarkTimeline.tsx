@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { ExArr, calcRenderSegments } from "~/utils/timeline";
+import { calcRenderSegments } from "~/utils/timeline";
 import { LogEntry, Log, PropertyId } from "~/utils/dataSchema";
 import XSmallSvg from "/public/Icon_XSmall.svg"
 import CheckmarkSvg from "/public/Icon_Checkmark.svg"
 import CheckmarkEmptySvg from "/public/Icon_CheckmarkEmpty.svg"
+import { ExArr } from "~/utils/ExArr";
 
 export function CheckmarkTimeline(props: { time: number, singleCheckmarkLength: number, log: Log, timePropName: PropertyId, fallbackCount: number }) {
 	const [checkmarkCount, setCheckmarkCount] = useState(props.fallbackCount);

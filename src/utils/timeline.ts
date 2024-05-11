@@ -1,3 +1,4 @@
+import { ExArr } from "./ExArr";
 import { LogEntry, PropertyId } from "./dataSchema";
 
 export function timeAgoInfo(time: number) {
@@ -33,27 +34,6 @@ export type Segment<T> = {
 function clamp(value: number, min: number, max: number) {
 	return Math.min(Math.max(value, min), max);
 };
-
-export class ExArr<T> extends Array<T> {
-	mapInBetween<U>(fn: (a: T, b: T) => U): ExArr<U> {
-		return (new ExArr(this.length - 1)).fill(undefined).map((_, i) => fn(this[i] as T, this[i + 1] as T)) as ExArr<U>;
-	}
-
-	group(fn: (a: T) => string | number | undefined): { [key: string | number]: ExArr<T> } {
-		const obj: { [key: string | number]: ExArr<T> } = {};
-		this.forEach(i => {
-			const result = fn(i);
-			if(result === undefined) return;
-			if(obj[result] === undefined) obj[result] = new ExArr();
-			obj[result]?.push(i);
-		});
-		return obj;
-	}
-
-	static createMap<T>(count: number, fn: (i: number) => T): ExArr<T> {
-		return new ExArr(count).fill(undefined).map((_, i) => fn(i)) as ExArr<T>;
-	}
-}
 
 export function calcRenderSegments<T>(startTime: number, endTime: number, logEntries: LogEntry[], timeProp: PropertyId, stateProp: PropertyId, defaultState: T): Segment<T>[] {
 	const lengthTime = endTime - startTime;
