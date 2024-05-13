@@ -2,6 +2,7 @@ import { cache } from "react";
 import { Log, LogEntry, LogEntryId, PropertyId, PropertyInfo, Tag, TagGraph, TagId, UserData, Workspace, addLogEntry, calcThisAndAllParentTagIds, makeTagGraph } from "./dataSchema";
 import { ExArr, mapMap } from "./ExArr";
 import { getAllEssentials_returnType } from "~/server/api/routers/db";
+import _ from "lodash";
 
 export type LogQuerier = {
 	logAge: number,
@@ -190,6 +191,7 @@ export function getLogs_saveResponse(db: ClientDB, response: { logs: Map<TagId, 
 
 		addLogToLog(logQuerier.log, log.log);
 
+		logQuerier.log = _.cloneDeep(logQuerier.log);
 		logQuerier.watchers.forEach((_, fn) => fn());
 	});
 }
