@@ -1,5 +1,6 @@
 "use client";
 import { useAuth } from "@clerk/nextjs";
+import _ from "lodash";
 import { createContext, useEffect } from "react";
 import { ClientDB } from "~/utils/clientDB";
 import { SyncMode, setSyncMode, syncMode } from "~/utils/clientDBFunctions";
@@ -9,6 +10,7 @@ export const DBContext = createContext<ClientDB>(null as any);
 
 export function DBLoadServerRenderData(props: { data: ClientDB, children?: React.ReactNode,  }) {
 	const auth = useAuth();
+	const db = props.data;
 
 	useEffect(() => {
 		if(auth.userId == undefined) {
@@ -17,10 +19,13 @@ export function DBLoadServerRenderData(props: { data: ClientDB, children?: React
 	}, [auth])
 
 	useEffect(() => {
-		PopulateClientDBOnLoad(props.data);
+		PopulateClientDBOnLoad(db);
+		db.userData = _.cloneDeep(db.userData);
+		db.workspaceWatchers.forEach((_, fn) => fn());
+		db.propsAndTagsWatchers.forEach((_, fn) => fn());
 	}, []);
 
-	return <DBContext.Provider value={props.data}>
+	return <DBContext.Provider value={db}>
 		{props.children}
 	</DBContext.Provider>;
 }
