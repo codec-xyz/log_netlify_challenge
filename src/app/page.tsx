@@ -66,7 +66,7 @@ export default function Home() {
 		<Image src="/preview004.png" width={6869} height={4320} alt="Sketch" className="" />
 		<div className="max-w-[500px] p-10 justify-self-center">
 			<p>This was built using Create T3 from which I used NextJS, tRPC, and tailwindcss. Clerk does auth. And Netlify for the server hosting. To participate in the challenge I used Netlify's Blobs as simple key value store. And all server saving uses Netlify's Blobs.</p>
-			<p>The db code I wrote is an utter mess. It became overwhelmingly complicated by the end and I wouldn't be suprised to find countless bugs. I got it sort of work in the end tho. :)</p>
+			<p>The db code I wrote is an utter mess. It became overwhelmingly complicated by the end and I wouldn't be suprised to find countless bugs. I got it sort of working in the end tho. :)</p>
 			<p>Now just try it out...</p>
 			<div className="flex py-5 justify-center">
 				<Link className="px-6 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 select-none cursor-pointer" href="/app">
