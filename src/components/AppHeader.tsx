@@ -88,12 +88,12 @@ export function AppHeader(props: { viewPageIndex: number }) {
 			</div>
 			<SignedOut>
 				<SignInButton>
-					<button className="rounded border-slate-400 px-4 py-2 transition hover:bg-slate-200">
+					<button className="w-[100px] rounded-xl border border-slate-400 px-4 py-2 transition hover:bg-slate-200">
 						Sign In
 					</button>
 				</SignInButton>
 				<SignUpButton>
-					<button className="rounded bg-slate-200 px-4 py-2 transition hover:bg-white/20">
+					<button className="w-[100px] rounded-xl bg-gradient-to-l from-slate-200 to-slate-300 px-4 py-2 transition hover:bg-slate/50 hidden md:block">
 						Sign Up
 					</button>
 				</SignUpButton>
