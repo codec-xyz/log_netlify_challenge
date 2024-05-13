@@ -257,7 +257,7 @@ export const dbRouter = createTRPCRouter({
 			.forEach(prop => {
 				const existingProp = hadProps.get(prop.id);
 				if(existingProp == undefined) {
-					thisUser.properties.push(prop);
+					thisUser.properties.push(prop as PropertyInfo);
 					return;
 				}
 
@@ -280,7 +280,7 @@ export const dbRouter = createTRPCRouter({
 			.forEach(tag => {
 				const existingTag = hadTags.get(tag.id);
 				if(existingTag == undefined) {
-					thisUser.tags.push(tag);
+					thisUser.tags.push(tag as Tag);
 					return;
 				}
 

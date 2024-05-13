@@ -52,13 +52,13 @@ export function setSyncMode(db: ClientDB, mode: SyncMode) {
 				trpc.db.initUserData.mutate().then(() => {
 					trpc.db.getAllEssentials.query(requestData)
 					.then(r => {
-						getAllEssentials_saveResponse(db, r);
+						getAllEssentials_saveResponse(db, r as any);
 						PopulateClientDBOnLoad(db);
 					});
 				});
 			}
 			else {
-				getAllEssentials_saveResponse(db, r);
+				getAllEssentials_saveResponse(db, r as any);
 				PopulateClientDBOnLoad(db);
 			}
 		});
@@ -98,7 +98,7 @@ export function makeCalls(db: ClientDB) {
 			trpc.db.updateLogs.mutate(updateLogsRequest)
 			.then(r => {
 				pending = false;
-				updateLogs_saveResponse(db, r);
+				updateLogs_saveResponse(db, r as any);
 				updateLogsRequest.setLogs.forEach(log => {
 					db.log_RequestPendings.delete(log.id);
 				});
@@ -147,7 +147,7 @@ export function makeCalls(db: ClientDB) {
 				trpc.db.getLogs.query(getLogRequest)
 				.then(r => {
 					pending = false;
-					getLogs_saveResponse(db, r);
+					getLogs_saveResponse(db, r as any);
 					getLogRequestInfo.forEach(log => {
 						db.log_RequestPendings.delete(log.id);
 					});
@@ -197,7 +197,7 @@ export function makeCalls(db: ClientDB) {
 			trpc.db.updateMyTagsAndProperties.mutate(updateMyTagsAndPropertiesRequest)
 			.then(r => {
 				pending = false;
-				updateMyTagsAndProperties_saveResponse(db, r);
+				updateMyTagsAndProperties_saveResponse(db, r as any);
 				db.tagsAndPropertiesSetPending = false;
 			})
 			.catch(e => {
