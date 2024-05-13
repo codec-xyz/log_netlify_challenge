@@ -553,6 +553,7 @@ export function getAllEssentials_saveResponse(db: ClientDB, response: getAllEsse
 	db.userDataLastUpdateVersion = db.userData.version;
 	db.userWorkspaceLastUpdateVersion = db.userData.workspace.version;
 
+	db.userData = _.cloneDeep(db.userData);
 	db.workspaceWatchers.forEach((_, fn) => fn());
 	db.propsAndTagsWatchers.forEach((_, fn) => fn());
 }
@@ -650,6 +651,7 @@ export function updateLogs_saveResponse(db: ClientDB, response: { logs: Map<TagI
 
 		addLogToLog(logQuerier.log, log);
 
+		logQuerier.log = _.cloneDeep(logQuerier.log);
 		logQuerier.watchers.forEach((_, fn) => fn());
 	});
 }
@@ -688,5 +690,6 @@ export function updateMyTagsAndProperties_saveResponse(db: ClientDB, response: {
 		db.userData.version = Math.max(db.userData.version, tag.version);
 	});
 
+	db.userData = _.cloneDeep(db.userData);
 	db.propsAndTagsWatchers.forEach((_, fn) => fn());
 }

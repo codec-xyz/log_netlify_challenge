@@ -257,6 +257,9 @@ function proccessLogQuerierWatchersUpdate(db: ClientDB, tagId: TagId) {
 		const log = localStorage_getLog(tagId);
 		log.entries = log.entries.filter(e => needStartTime <= e[LogProperty_Time] && e[LogProperty_Time] <= needEndTime);
 		addLogToLog(logQuerier.log, log);
+
+		logQuerier.log = _.cloneDeep(logQuerier.log);
+		logQuerier.watchers.forEach((_, fn) => fn());
 	}
 }
 
