@@ -7,8 +7,8 @@ import { Log, LogEntry, LogProperty_Time, PropertyId, PropertyInfo, Tag, TagId, 
 import { nanoid } from 'nanoid'
 import _ from 'lodash';
 
-const userStoreInfo = { name: 'user', consistency: 'strong' as ('eventual' | 'strong'), siteID: '47f68cee-8e8f-4bb7-b9cb-7e317420b6b4', token: 'nfp_kXhgmcP4znBRJc349pUCU1N46zXaTj8B0c68' };
-const logStoreInfo = { name: 'log', consistency: 'strong' as ('eventual' | 'strong'), siteID: '47f68cee-8e8f-4bb7-b9cb-7e317420b6b4', token: 'nfp_kXhgmcP4znBRJc349pUCU1N46zXaTj8B0c68' };
+const userStoreInfo = { name: 'user', consistency: 'strong' as ('eventual' | 'strong') };
+const logStoreInfo = { name: 'log', consistency: 'strong' as ('eventual' | 'strong') };
 
 function makeDefaultUserData(): UserData {
 	return {
