@@ -5,7 +5,7 @@ import { useSyncExternalStore } from "react";
 import { scheduleUpdate } from "./clientDBFunctions";
 
 export function setCookie(name: string, value: string) {
-	window.document.cookie = `${name}=${value}`;
+	window.document.cookie = `${name}=${value};path=/`;
 }
 
 export function getCookie(name: string) {
@@ -23,7 +23,7 @@ export function hasCookie(name: string) {
 
 export function deleteCookie(name: string) {
 	if(!hasCookie(name)) return;
-	window.document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:01 GMT`;
+	window.document.cookie = `${name}=;path=/;expires=Thu, 01 Jan 1970 00:00:01 GMT`;
 }
 
 export function isLocalStorageEnabled() {
@@ -37,6 +37,7 @@ export function isLocalStorageEnabled() {
 	}
 };
 
+export const SyncModeAddress = 'LogLocalStorage_oSDNGBWk6M8UoTqDfZGqT'
 const LocalStorageEnabledAddress = 'LogLocalStorage_oSDNGBWk6M8UoTqDfZGqT'
 const UserStorageAddress = 'UserStorage_iVjRe3NG0gdYn7G2HRBVg';
 type LocalStorageObject = {

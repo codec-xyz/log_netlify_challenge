@@ -3,7 +3,7 @@ import { TagId, Log, LogEntry, LogEntryId, addLogEntry, removeLogEntry, Workspac
 import { SampleWorkspace001 } from "./sampleData";
 import { ClientDB, LogQuerier, addLogToLog, assureLogQuerier, getAllEssentials_makeRequestData, getAllEssentials_saveResponse, getLogs_makeRequestData, getLogs_saveResponse, setMyWorkspace_makeRequestData, setMyWorkspace_saveResponse, updateLogs_makeRequestData_clearChanges, updateLogs_saveResponse, updateMyTagsAndProperties_makeRequestData_clearChanges, updateMyTagsAndProperties_saveResponse } from "./clientDB";
 import _ from "lodash";
-import { PopulateClientDBOnLoad, deleteCookie, getCookie, isLocalStorageEnabled, localStorage_addToLog, localStorage_deleteProp, localStorage_deleteTag, localStorage_getLog, localStorage_removeFromLog, localStorage_setLog, localStorage_setProp, localStorage_setTag, localStorage_setWorkspace, setCookie, setLocalStorageMode } from "./localStorageDB";
+import { PopulateClientDBOnLoad, SyncModeAddress, deleteCookie, getCookie, isLocalStorageEnabled, localStorage_addToLog, localStorage_deleteProp, localStorage_deleteTag, localStorage_getLog, localStorage_removeFromLog, localStorage_setLog, localStorage_setProp, localStorage_setTag, localStorage_setWorkspace, setCookie, setLocalStorageMode } from "./localStorageDB";
 import { api, trpc } from "~/trpc/react";
 
 export enum SyncMode {
@@ -36,9 +36,18 @@ export function setSyncMode(db: ClientDB, mode: SyncMode) {
 
 	syncMode = mode;
 
-	if(syncMode == SyncMode.Offline) setCookie('LogSyncMode', 'Offline');
-	else if(syncMode == SyncMode.Normal) deleteCookie('LogSyncMode');
-	else if(syncMode == SyncMode.Frequent) setCookie('LogSyncMode', 'Frequent');
+	if(syncMode == SyncMode.Offline) {
+		setCookie('LogSyncMode', 'Offline');
+		localStorage.setItem(SyncModeAddress, 'Offline');
+	}
+	else if(syncMode == SyncMode.Normal) {
+		deleteCookie('LogSyncMode');
+		localStorage.removeItem(SyncModeAddress);
+	}
+	else if(syncMode == SyncMode.Frequent) {
+		setCookie('LogSyncMode', 'Frequent');
+		localStorage.setItem(SyncModeAddress, 'Frequent');
+	}
 
 	if(syncMode == SyncMode.Offline) setLocalStorageMode(true);
 
@@ -67,10 +76,11 @@ export function setSyncMode(db: ClientDB, mode: SyncMode) {
 
 export let syncMode = SyncMode.Normal;
 if(typeof window !== 'undefined') {
-	const syncModeCookieValue = getCookie('LogSyncMode');
-	if(syncModeCookieValue == 'Offline') syncMode = SyncMode.Offline;
-	else if(syncModeCookieValue == 'Normal') syncMode = SyncMode.Normal;
-	else if(syncModeCookieValue == 'Frequent') syncMode = SyncMode.Frequent;
+	const syncModeStoredValue = isLocalStorageEnabled() ? localStorage.getItem(SyncModeAddress) ?? 'Normal' : 'Normal';
+	if(syncModeStoredValue == 'Offline') syncMode = SyncMode.Offline;
+	else if(syncModeStoredValue == 'Normal') syncMode = SyncMode.Normal;
+	else if(syncModeStoredValue == 'Frequent') syncMode = SyncMode.Frequent;
+	setSyncMode(null as any, syncMode);
 
 	window.onbeforeunload = function(e) {
 		if (debounceUpdate != undefined) return 'Dialog text here.';
