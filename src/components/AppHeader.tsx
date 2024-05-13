@@ -32,7 +32,7 @@ export function AppHeader(props: { viewPageIndex: number }) {
 	if(syncMode == SyncMode.Offline) value = 'Offline';
 	if(syncMode == SyncMode.Frequent) value = 'Frequent';
 
-	const [state, setState] = useState<{ x: number, y: number, viewPage: ViewPage } | undefined>(undefined);
+	const [state, setState] = useState<{ x: number, y: number, viewPageId: string } | undefined>(undefined);
 	const popup = useRef<HTMLDivElement>(null);
 	let textInputRef = useRef<HTMLInputElement>(null);
 
@@ -52,7 +52,7 @@ export function AppHeader(props: { viewPageIndex: number }) {
 			setState({
 				x: Math.min(Math.max(0, e.target.getBoundingClientRect().left), window.innerWidth - width),
 				y: e.target.getBoundingClientRect().bottom,
-				viewPage,
+				viewPageId: viewPage.id,
 			});
 			window.addEventListener('click', popupOutClickListener, {capture: true});
 		}
@@ -126,7 +126,7 @@ export function AppHeader(props: { viewPageIndex: number }) {
 		</div>
 		<div ref={popup} className="z-50 absolute rounded-lg border border-slate-200 bg-white p-4 drop-shadow-4xl" style={style}>
 			<div className="text-sm text-slate-500 px-1">Page Name</div>
-			<input ref={textInputRef} type="text" value={state?.viewPage?.name ?? ""} className="border border-slate-400 rounded-md px-2 py-1 w-full" onChange={e => {state!.viewPage.name = e.target.value; setWorkspace(db, workspace)}}></input>
+			<input ref={textInputRef} type="text" value={workspace.viewPages.find(e => e.id == state?.viewPageId)?.name ?? ""} className="border border-slate-400 rounded-md px-2 py-1 w-full" onChange={e => {workspace.viewPages.find(e => e.id == state?.viewPageId!)!.name = e.target.value; setWorkspace(db, workspace)}}></input>
 			<div className="grid grid-cols-[1fr_1fr] gap-4 pt-4">
 				<button className="nt-semibold text-slate-500 border border-slate-500 px-2 py-2 rounded transition hover:bg-slate-500 hover:text-white" onClick={() => {
 					window.removeEventListener('click', popupOutClickListener);
@@ -134,7 +134,7 @@ export function AppHeader(props: { viewPageIndex: number }) {
 				}}>Done</button>
 				<button className="nt-semibold text-red-500 border border-red-500 px-2 py-2 rounded transition hover:bg-red-500 hover:text-white" onClick={() => {
 					const version = new Date().getTime();
-					workspace.viewPages = workspace.viewPages.filter(p => p.id != state!.viewPage.id);
+					workspace.viewPages = workspace.viewPages.filter(p => p.id != state!.viewPageId);
 					workspace.version = version;
 					setWorkspace(db, workspace);
 					window.removeEventListener('click', popupOutClickListener);
