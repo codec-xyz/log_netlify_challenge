@@ -2,8 +2,8 @@
 
 import { useContext, useEffect, useRef, useState } from "react";
 import { TimedUpdateContext, useFirstRenderFallback } from "~/components/TimedUpdateProvider";
-import { updateLogGroup, useDatabaseLog as useDatabaseLog } from "~/utils/data";
-import { PropertyId, TagId } from "~/utils/dataSchema";
+import { addToLog, useDatabaseLog as useDatabaseLog } from "~/utils/clientDBFunctions";
+import { LogProperty_Time, PropertyId, TagId } from "~/utils/dataSchema";
 import XSmallSvg from "/public/Icon_XSmall.svg"
 import CheckmarkSvg from "/public/Icon_Checkmark.svg"
 import CheckmarkEmptySvg from "/public/Icon_CheckmarkEmpty.svg"
@@ -12,6 +12,8 @@ import { VerticalZigZagTimeline } from "./VerticalZigZagTimeline";
 import { CheckmarkTimeline } from "./CheckmarkTimeline";
 import { timeAgoInfo } from "~/utils/timeline";
 import { DotsTimeline } from "./DotsTimeline";
+import { DBContext } from "./DBLoadServerRenderData";
+import { nanoid } from "nanoid";
 
 export enum View_Checkmark_Type {
 	DotsTimeline,
@@ -26,26 +28,25 @@ export type View_Checkmark = {
 
 export function View_Checkmark_Render(props: { view: View_Checkmark }) {
 	const time = useContext(TimedUpdateContext);
-	const log = useDatabaseLog(props.view.tag);
+	const db = useContext(DBContext);
+	const log = { data: useDatabaseLog(db, props.view.tag, time.getTime() - (25 * 24 * 60 * 60 * 1000)) };
 
-	const timePropName: PropertyId = 'id_of_SysTimeProp';
+	const timePropName: PropertyId = LogProperty_Time;
 
 	const actualNow = useFirstRenderFallback(() => new Date(), () => time).getTime();
 
-	const latestEvent = log.entries[0];
+	const latestEvent = log.data.entries[0];
 	const hasFuture = latestEvent ? latestEvent[timePropName] > actualNow : false;
 	
-	const closestEventToNow = log.entries.find(e => e[timePropName] <= actualNow);
+	const closestEventToNow = log.data.entries.find(e => e[timePropName] <= actualNow);
 	const timeAgoLabel = closestEventToNow ? timeAgoInfo(actualNow - closestEventToNow[timePropName]) : '';
 
 	function addEvent() {
-		let newEvents = log.entries.slice();
-		newEvents.unshift({
+		addToLog(db, props.view.tag, {
 			version: 0,
-			id: (Math.random() + 1).toString(36).substring(2),
+			id: nanoid(),
 			[timePropName]: new Date().getTime(),
 		});
-		updateLogGroup(log.id, newEvents);
 	}
 
 	const nextMidnight = new Date(time);
@@ -54,7 +55,7 @@ export function View_Checkmark_Render(props: { view: View_Checkmark }) {
 	nextMidnight.setMinutes(0);
 	nextMidnight.setHours(24);
 	
-	return <div className="grid md:grid-cols-[min(15%,_200px)_1fr] gap-x-2 md:pl-2">
+	return <div className="grid md:grid-cols-[min(20%,_250px)_1fr] gap-x-2 md:pl-2">
 		{props.view.type == View_Checkmark_Type.DotsTimeline && <>
 			<div className="my-1 justify-self-center md:justify-self-end self-center grid grid-cols-[1fr_auto] items-center gap-x-2 text-right">
 			<div className="font-bold">{props.view.name}</div>
@@ -63,14 +64,14 @@ export function View_Checkmark_Render(props: { view: View_Checkmark }) {
 			</button>
 			<div className="text-xs col-span-2 text-slate-500">{timeAgoLabel}</div>
 		</div>
-			<DotsTimeline time={time.getTime()} length={24 * 60 * 60 * 1000 * 10} log={log} timePropName={timePropName} />
+			<DotsTimeline time={time.getTime()} length={24 * 60 * 60 * 1000 * 10} log={log.data} timePropName={timePropName} />
 		</>}
 		{props.view.type == View_Checkmark_Type.DailyCheckmark && <>
 			<div className="my-1 justify-self-center md:justify-self-end self-center text-center md:text-right">
 				<div className="font-bold">{props.view.name}</div>
 				<div className="text-xs col-span-2 text-slate-500">{timeAgoLabel}</div>
 			</div>
-			<CheckmarkTimeline time={nextMidnight.getTime()} singleCheckmarkLength={24 * 60 * 60 * 1000} log={log} timePropName={timePropName} fallbackCount={30} />
+			<CheckmarkTimeline time={nextMidnight.getTime()} singleCheckmarkLength={24 * 60 * 60 * 1000} log={log.data} timePropName={timePropName} fallbackCount={30} />
 		</>}
 	</div>;
 }

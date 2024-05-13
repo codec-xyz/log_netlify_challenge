@@ -39,6 +39,7 @@ export function VerticalZigZagTimeline(props: { time: number, nowTime: number, t
 		if (!elementRef.current) return;
 		const resizeObserver = new ResizeObserver(() => {
 			const element = elementRef.current as HTMLDivElement;
+			if(element == null) return;
 			//Warning: careful not to cause a loop
 			setZigZagCount(Math.max(1, Math.floor(element.offsetWidth / props.segmentWidth)));
 		});

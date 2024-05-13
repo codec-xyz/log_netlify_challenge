@@ -100,8 +100,6 @@ export const SampleTags001_Queryable: {
 		name: 'Sleeping (Tag)',
 		tags: [],
 		properties: ['id_of_SysTimeProp', 'id_of_SysOnOffBoolProp'],
-		c_allProperties: ['id_of_SysTimeProp', 'id_of_SysOnOffBoolProp'],
-		c_logNonEmpty: true,
 		viewers: [],
 		logEditors: [],
 	},
