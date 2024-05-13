@@ -64,7 +64,7 @@ export function View_Checkmark_Render(props: { view: View_Checkmark }) {
 			</button>
 			<div className="text-xs col-span-2 text-slate-500">{timeAgoLabel}</div>
 		</div>
-			<DotsTimeline time={time.getTime()} length={24 * 60 * 60 * 1000 * 10} log={log.data} timePropName={timePropName} />
+			<DotsTimeline time={time.getTime()} length={24 * 60 * 60 * 1000} log={log.data} timePropName={timePropName} />
 		</>}
 		{props.view.type == View_Checkmark_Type.DailyCheckmark && <>
 			<div className="my-1 justify-self-center md:justify-self-end self-center text-center md:text-right">
