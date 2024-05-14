@@ -50,12 +50,12 @@ export default function Home() {
 				</Link>
 			</div>
 			<div className="self-start flex items-center">
-				<div className="max-w-[450px] p-10 z-30 rounded-xl">
+				<div className="max-w-[450px] p-10 z-30 rounded-xl bg-slate-100">
 					<h1 className="text-6xl font-bold">Keep Track of Life</h1>
 					<p className="">Log is an idea I've had for a while. Log your life as seamlessly as possible and gain insights. Here is what I was able to make in a week...</p>
 				</div>
 			</div>
-			<Image src="/preview001.png" width={2645} height={1422} alt="Preview" className="place-self-end w-[calc(min(100vw,115vh))] mt-0 xl:mt-[-500px] mr-[calc(min(0px,(100vw-1280px)/-3))] z-0" />
+			<Image src="/preview001.png" width={2645} height={1422} alt="Preview" className="place-self-end w-[calc(min(100vw,115vh))] xl:w-[calc(min(100vw-((100vw-1280px)/1.75+450px),115vh))] mt-0 xl:mt-[-500px] mr-[calc(min(0px,(100vw-1280px-20px)/-3))] z-0" />
 		</div>
 
 		<div className="p-10 mt-[300px] xl:mt-0">
