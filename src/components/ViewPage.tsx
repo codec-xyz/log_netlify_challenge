@@ -9,6 +9,8 @@ import { DBContext } from "./DBLoadServerRenderData";
 import { useRouter } from "next/navigation";
 import GearSvg from "/public/Icon_Gear.svg"
 import { useAuth } from "@clerk/nextjs";
+import DropdownSvg from "/public/Icon_Dropdown.svg"
+import Image from 'next/image';
 
 function RenderLog(view: View) {
 	if(view.type == ViewTypes.PlayPause) return <View_PlayPause_Render view={view.info as View_PlayPause} />;
@@ -86,6 +88,8 @@ export default function ViewPages(props: { viewPage?: ViewPage }) {
 		}
 		else setState({s: 0, x: 0, y: 0, view: undefined});
 	}
+
+	const [instructionsOpen, setInstructionsOpen] = useState(false);
 	
 	return <>
 		{props.viewPage && props.viewPage.views.length > 0 && <div className="flex flex-col gap-2 my-2">
@@ -110,6 +114,22 @@ export default function ViewPages(props: { viewPage?: ViewPage }) {
 				</div>
 			</Fragment>)}
 		</div>}
+
+		<div className="p-4">
+			<div className="w-fit flex fill-slate-400 p-1 rounded hover:bg-slate-200 select-none cursor-pointer items-center gap-2" onClick={() => setInstructionsOpen(!instructionsOpen)}>
+				Click to Open/Close Instructions
+				<DropdownSvg className="" />
+			</div>
+			{instructionsOpen && <div>
+				Views let you track activities...<br />
+				<span className="font-bold">Horizontal Timeline view</span> - shows a timeline of the past day for a certain activity. Click play when you start doing the activity and pause then you stop. A section wall appear on the timeline overtime<br />
+				<span className="font-bold">Vertical Zig Zag Timeline view</span> - like a horizontal timeline but shows a lot more time. Lots of little vertical sections each shows a day. Click play when you start doing the activity and pause then you stop. This can be useful for something like sleep, to see patterns over time and compare day to day<br />
+				<span className="font-bold">Dots Timeline view</span> - a timeline of the past day that shows a dot every time you click the check mark<br />
+				<span className="font-bold">Checkmark Timeline view</span> - shows a checkmark per day. Click a checkmark to toggle it<br />
+				<span className="font-bold">Gear Icons</span> - on the side of each view is a gear that opens settings for the view<br />
+				<Image src="/preview002.png" width={1599} height={899} alt="preview" className="border border-slate-400 w-full max-w-[750px] p-2 mt-2" />
+			</div>}
+		</div>
 
 		{!props.viewPage && <div className="flex grow p-4">
 			<div className="font-bold text-slate-500 m-auto border border-slate-400 py-4 px-8 rounded-full select-none cursor-pointer transition hover:bg-slate-400 hover:text-white" onClick={addPage}>Make a view page</div>
