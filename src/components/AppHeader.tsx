@@ -6,6 +6,7 @@ import { useLocalStorageMode, setLocalStorageMode } from "~/utils/localStorageDB
 import { DBContext } from "./DBLoadServerRenderData";
 import { ViewPage } from "~/utils/dataSchema";
 import DropdownSvg from "/public/Icon_Dropdown.svg"
+import PlusThinnerSvg from "/public/Icon_PlusThinner.svg"
 import { useRouter } from "next/navigation";
 
 export function AppHeader(props: { viewPageIndex: number }) {
@@ -120,7 +121,7 @@ export function AppHeader(props: { viewPageIndex: number }) {
 				</div>
 			<div onClick={addPage} className="flex w-16 transition hover:bg-slate-100 select-none cursor-pointer ">
 				<div className="m-auto text-2xl">
-					+
+					<PlusThinnerSvg className="box-content" width="10" height="10" viewBox="0 0 16 16" />
 				</div>
 			</div>
 		</div>
