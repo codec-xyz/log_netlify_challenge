@@ -132,12 +132,12 @@ export function makeCalls(db: ClientDB) {
 			&& !db.log_RequestErrors.has(log.log.id)
 		)
 		.map(log => {
-			let needStartTime = Number.MIN_VALUE;
-			let needEndTime = Number.MAX_VALUE;
+			let needStartTime = Number.NEGATIVE_INFINITY;
+			let needEndTime = Number.POSITIVE_INFINITY;
 
 			log.watchers.forEach(w => {
-				needStartTime = Math.max(needStartTime, w.startTime ?? Number.MIN_VALUE);
-				needEndTime = Math.min(needEndTime, w.endTime ?? Number.MAX_VALUE);
+				needStartTime = Math.max(needStartTime, w.startTime ?? Number.NEGATIVE_INFINITY);
+				needEndTime = Math.min(needEndTime, w.endTime ?? Number.POSITIVE_INFINITY);
 			});
 
 			log.needsUpdate = false;
@@ -242,12 +242,12 @@ function proccessLogQuerierWatchersUpdate(db: ClientDB, tagId: TagId) {
 	if(logQuerier == undefined) return;
 	if(db.log_RequestPendings.has(tagId) || db.log_RequestErrors.has(tagId)) return;
 
-	let needStartTime = Number.MIN_VALUE;
-	let needEndTime = Number.MAX_VALUE;
+	let needStartTime = Number.NEGATIVE_INFINITY;
+	let needEndTime = Number.POSITIVE_INFINITY;
 
 	logQuerier.watchers.forEach(w => {
-		needStartTime = Math.max(needStartTime, w.startTime ?? Number.MIN_VALUE);
-		needEndTime = Math.min(needEndTime, w.startTime ?? Number.MAX_VALUE);
+		needStartTime = Math.max(needStartTime, w.startTime ?? Number.NEGATIVE_INFINITY);
+		needEndTime = Math.min(needEndTime, w.endTime ?? Number.POSITIVE_INFINITY);
 	});
 
 	if(needStartTime < logQuerier.startTime || needEndTime > logQuerier.endTime) {
