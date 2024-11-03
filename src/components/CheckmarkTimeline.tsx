@@ -53,13 +53,13 @@ export function CheckmarkTimeline(props: { time: number, singleCheckmarkLength: 
 	}
 
 	return <div className="grid grid-rows-[1fr_repeat(32,0)] gap-x-2 mx-2 md:ml-0 overflow-hidden h-[40px]" ref={elementRef} style={{ gridTemplateColumns: `repeat(auto-fill, minmax(min(100%, ${40}px), 1fr))` }}>
-		{groupedEntries.map(entry => <div className="size-full grid rounded-full transitions hover:bg-slate-100" onClick={() => {
+		{groupedEntries.map(entry => <div key={entry.key} className="size-full grid rounded-full transitions hover:bg-slate-100" onClick={() => {
 			if(entry.values.length == 0) addEvent(entry.key + props.singleCheckmarkLength * 0.5);
 			else removeEvents(entry.values.map(e => e.id));
 		}}>
 			{entry.values.length == 0 ?
-			<XSmallSvg key={entry.key} className="fill-slate-200 m-auto" width="16" height="16" viewBox="0 0 16 16"/>
-			: <div key={entry.key} className="grid">
+			<XSmallSvg className="fill-slate-200 m-auto" width="16" height="16" viewBox="0 0 16 16"/>
+			: <div className="grid">
 				<CheckmarkSvg className="fill-slate-400 m-auto row-[1] col-[1]" width="20" height="20" viewBox="0 0 16 16"/>
 				{entry.values.length > 1 && <div className="size-fit text-xs text-slate-500 row-[1] col-[1] place-self-end">{entry.values.length}</div>}
 			</div>}
