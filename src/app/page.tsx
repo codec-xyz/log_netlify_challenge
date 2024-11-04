@@ -42,7 +42,7 @@ export default function Home() {
 	<div className="max-w-screen-xl m-auto p-8 flex min-h-screen mt-[-106px] items-stretch max-xl:flex-col max-xl:pt-[122px]">
 		<div className="flex flex-col items-center shrink-0">
 			<div className="grow min-h-[106px] max-xl:hidden"></div>
-			<div className="py-8 xl:px-8 box-content max-w-[400px] shrink-0">
+			<div className="pb-8 xl:pt-8 xl:px-8 box-content max-w-[400px] shrink-0">
 				<h1 className="text-6xl font-bold">Keep Track of Life</h1>
 				<p className="pt-2">Log your life as seamlessly as possible and gain insights.</p>
 				<div className="pt-4 flex gap-4 items-center flex-wrap">
@@ -56,7 +56,7 @@ export default function Home() {
 			</div>
 			<div className="grow max-xl:hidden"></div>
 		</div>
-		<div className="flex flex-col xl:mr-[calc(clamp(-300px,-1*(100vw-1280px+64px)/2,0px))] max-xl:grow max-xl:pb-8 max-xl:-mx-8">
+		<div className="flex flex-col xl:mr-[calc(clamp(-300px,-1*(100vw-1280px+64px)/2,0px))] max-xl:grow max-xl:-mx-8">
 			<div className="grow-[3] min-h-[106px] max-xl:hidden"></div>
 			<Image src="/preview001.png" width={2645} height={1422} alt="Preview" className="min-w-0 w-full max-xl:w-full max-xl:grow object-cover object-[60%]" />
 			<div className="grow max-xl:hidden"></div>
