@@ -39,27 +39,29 @@ export default function Home() {
 			</SignedIn>
 		</div>
 	</div>
-	<div className="max-w-screen-xl m-auto p-8 flex min-h-screen mt-[-106px] items-stretch max-xl:flex-col max-xl:pt-[122px]">
-		<div className="flex flex-col items-center shrink-0">
-			<div className="grow min-h-[106px] max-xl:hidden"></div>
-			<div className="pb-8 xl:pt-8 xl:px-8 box-content max-w-[400px] shrink-0">
-				<h1 className="text-6xl font-bold">Keep Track of Life</h1>
-				<p className="pt-2">Log your life as seamlessly as possible and gain insights.</p>
-				<div className="pt-4 flex gap-4 items-center flex-wrap">
-				<Link className="px-6 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 select-none cursor-pointer" href="/app">
-					Try It Out
-				</Link>
-				<Link  className="px-6 py-3 transitions rounded-xl font-bold text-white bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 select-none cursor-pointer" href="https://github.com/codec-xyz/track_netlify_challenge">
-					Github
-				</Link>
+	<div className="grid grid-cols-[1fr_minmax(150px,1280px)_1fr]">
+		<div className="max-w-[1600px] col-[2_/_span_2] p-8 flex min-h-screen mt-[-106px] items-stretch max-xl:flex-col max-xl:pt-[122px]">
+			<div className="flex flex-col items-center shrink-0">
+				<div className="grow min-h-[106px] max-xl:hidden"></div>
+				<div className="pb-8 xl:pt-8 xl:px-8 box-content max-w-[400px] shrink-0">
+					<h1 className="text-6xl font-bold">Keep Track of Life</h1>
+					<p className="pt-2">Log your life as seamlessly as possible and gain insights.</p>
+					<div className="pt-4 flex gap-4 items-center flex-wrap">
+						<Link className="px-6 py-3 rounded-xl font-bold text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-pink-500 hover:to-yellow-500 select-none cursor-pointer" href="/app">
+							Try It Out
+						</Link>
+						<Link  className="px-6 py-3 transitions rounded-xl font-bold text-white bg-gradient-to-r from-gray-900 to-gray-700 hover:from-gray-800 hover:to-gray-600 select-none cursor-pointer" href="https://github.com/codec-xyz/track_netlify_challenge">
+							Github
+						</Link>
+					</div>
 				</div>
+				<div className="grow max-xl:hidden"></div>
 			</div>
-			<div className="grow max-xl:hidden"></div>
-		</div>
-		<div className="flex flex-col xl:mr-[calc(clamp(-300px,-1*(100vw-1280px+64px)/2,0px))] max-xl:grow max-xl:-mx-8">
-			<div className="grow-[3] min-h-[106px] max-xl:hidden"></div>
-			<Image src="/preview001.png" width={2645} height={1422} alt="Preview" className="min-w-0 w-full max-xl:w-full max-xl:grow object-cover object-[60%]" />
-			<div className="grow max-xl:hidden"></div>
+			<div className="flex flex-col max-xl:grow max-xl:-mx-8">
+				<div className="grow-[3] min-h-[106px] max-xl:hidden"></div>
+				<Image src="/preview001.png" width={2645} height={1422} alt="Preview" className="min-w-0 w-full max-xl:w-full max-xl:grow object-cover object-[60%]" />
+				<div className="grow max-xl:hidden"></div>
+			</div>
 		</div>
 	</div>
 
@@ -81,8 +83,7 @@ export default function Home() {
 		</div>
 	</div>
 	<div className="bg-slate-500 w-full h-[400px] mt-8 text-white flex flex-col items-center justify-center gap-2">
-		<div>Log by</div>
-		<svg className="w-32 fill-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 4" role="img" aria-label="codec logo">
+		<svg className="w-32 fill-slate-200" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 14 4" role="img" aria-label="codec logo">
 			<path d="M0 4h2v-2h-2z M3  4h2v-2h-2z  M6 4h2v-4h-1v2h-1z  M9 4h2v-2h-2z  M12 4h2v-2h-2z"></path>
 		</svg>
 	</div>
